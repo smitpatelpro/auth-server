@@ -18,7 +18,6 @@ func main() {
 
 	app.Static("/static", config.Config("STATIC_ROOT"))
 	app.Static("/media", config.Config("MEDIA_ROOT"))
-	// utils.CreateMediaDirectories()
 
 	database.ConnectDB()
 

@@ -9,6 +9,4 @@ import (
 func RunAutoMigrate(db *gorm.DB) {
 	db.AutoMigrate(&User{})
 	fmt.Println("User Database Migrated")
-
-	fmt.Println("Media Database Migrated")
 }
