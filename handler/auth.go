@@ -3,7 +3,6 @@ package handler
 import (
 	"auth-server/database"
 	"auth-server/model"
-	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -25,15 +24,13 @@ func Login(c *fiber.Ctx) error {
 	db := database.DB
 	user_model := new(model.User)
 
-	fmt.Println("Username:=", u.Name)
-	// Throws Unauthorized error
-
 	if err := db.First(&user_model, "username = ?", u.Name).Error; err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Invalid credentials"})
 	}
 
 	// Create the Claims
 	claims := jwt.MapClaims{
+		"user":  user_model.Username,
 		"name":  user_model.FullName,
 		"admin": user_model.IsAdmin,
 		"exp":   time.Now().Add(time.Hour * 72).Unix(),

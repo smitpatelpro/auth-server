@@ -13,18 +13,6 @@ import (
 )
 
 func main() {
-	// app := fiber.New()
-
-	// app.Post("/login", handler.Login)
-
-	// // JWT Middleware
-	// app.Use(jwtware.New(jwtware.Config{
-	// 	SigningKey: []byte("secret"),
-	// }))
-	// app.Get("/secured", handler.HandleRoot)
-
-	// app.Listen(":3000")
-
 	app := fiber.New()
 	app.Use(cors.New())
 
@@ -35,5 +23,7 @@ func main() {
 	database.ConnectDB()
 
 	router.SetupRoutes(app)
-	log.Fatal(app.Listen(":3000"))
+
+	port := config.Config("SERVER_PORT")
+	log.Fatal(app.Listen(":" + port))
 }
