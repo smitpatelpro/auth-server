@@ -37,30 +37,6 @@ type SignupRequest struct {
 	FullName string `json:"full_name" xml:"full_name" form:"full_name"`
 }
 
-// Validation
-// type ErrorResponse struct {
-// 	FailedField string
-// 	Tag         string
-// 	Value       string
-// }
-
-// var validate = validator.New()
-
-// func ValidateStruct(user User) []*ErrorResponse {
-// 	var errors []*ErrorResponse
-// 	err := validate.Struct(user)
-// 	if err != nil {
-// 		for _, err := range err.(validator.ValidationErrors) {
-// 			var element ErrorResponse
-// 			element.FailedField = err.StructNamespace()
-// 			element.Tag = err.Tag()
-// 			element.Value = err.Param()
-// 			errors = append(errors, &element)
-// 		}
-// 	}
-// 	return errors
-// }
-
 // Handlers
 func Login(c *fiber.Ctx) error {
 	data := new(LoginRequest)
@@ -101,7 +77,8 @@ func Login(c *fiber.Ctx) error {
 func Signup(c *fiber.Ctx) error {
 	data := new(SignupRequest)
 	if err := c.BodyParser(data); err != nil {
-		return err
+		// return err
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": err.Error()})
 	}
 
 	// Check that user with same username is not already present
