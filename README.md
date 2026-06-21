@@ -104,6 +104,13 @@ DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=postgres
 DB_NAME=auth_db
+DB_SSLMODE=disable
+
+# Connection pool settings (optional, defaults shown)
+DB_MAX_OPEN_CONNS=25
+DB_MAX_IDLE_CONNS=10
+DB_CONN_MAX_LIFETIME=5m
+DB_CONN_MAX_IDLETIME=1m
 
 STATIC_ROOT=./static
 MEDIA_ROOT=./media
@@ -131,6 +138,13 @@ auth-server/
 ├── go.mod
 └── .env            # Local environment variables (not committed)
 ```
+
+## Database
+
+- **Connection pooling** — configurable pool via `DB_MAX_OPEN_CONNS`, `DB_MAX_IDLE_CONNS`, `DB_CONN_MAX_LIFETIME`, `DB_CONN_MAX_IDLETIME`
+- **Retry with backoff** — up to 5 attempts on startup with exponential delay
+- **Health check** — `Ping()` after connection to verify the database is reachable
+- **Config loaded once** — `.env` is read a single time via `sync.Once`
 
 ## Database Schema
 
